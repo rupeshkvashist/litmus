@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Litmus Homepage</title>
+  <meta name="description" content="Litmus helps individuals and businesses verify whether an image is genuine, AI-generated, or manipulated, with enterprise-ready API integration." />
+  <meta property="og:title" content="Litmus" />
+  <meta property="og:description" content="Image authenticity infrastructure for consumers and enterprises." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=zodiak@400,700&display=swap" rel="stylesheet" />
+  <style>
+    :root,[data-theme="light"]{
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+      --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+      --text-3xl:clamp(2.8rem,1.5rem + 4vw,5.4rem);
+      --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;--space-24:6rem;--space-32:8rem;
+      --color-bg:#f7f6f2;--color-surface:#faf9f6;--color-surface-2:#fefdfa;--color-surface-offset:#f0ede7;--color-surface-accent:#e7f1ef;--color-border:#d7d3cb;--color-divider:#dfdbd3;
+      --color-text:#24211b;--color-text-muted:#6f6b64;--color-text-faint:#aba69d;--color-text-inverse:#f8f7f4;
+      --color-primary:#0a6a67;--color-primary-hover:#084f4d;--color-primary-highlight:#d4e5e4;
+      --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.875rem;--radius-xl:1.25rem;--radius-full:9999px;
+      --shadow-sm:0 1px 2px rgba(22,20,16,.06);--shadow-md:0 8px 28px rgba(22,20,16,.08);--shadow-lg:0 28px 60px rgba(22,20,16,.12);
+      --font-body:'General Sans','Inter',sans-serif;--font-display:'Zodiak',Georgia,serif;--content:1180px;--transition:180ms cubic-bezier(.16,1,.3,1);
+    }
+    [data-theme="dark"]{
+      --color-bg:#151412;--color-surface:#1c1b18;--color-surface-2:#23211f;--color-surface-offset:#1f1d1a;--color-surface-accent:#1d2e2e;--color-border:#38352f;--color-divider:#2b2925;
+      --color-text:#ddd8d0;--color-text-muted:#a29d95;--color-text-faint:#716c65;--color-text-inverse:#161513;
+      --color-primary:#5ca8ac;--color-primary-hover:#88c1c4;--color-primary-highlight:#213336;--shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-md:0 10px 28px rgba(0,0,0,.3);--shadow-lg:0 30px 64px rgba(0,0,0,.42);
+    }
+    *,*:before,*:after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{min-height:100dvh;background:var(--color-bg);color:var(--color-text);font:400 var(--text-base)/1.6 var(--font-body)}
+    img,svg{display:block;max-width:100%;height:auto}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .skip-link{position:absolute;left:-999px;top:var(--space-3);z-index:999;background:var(--color-primary);color:var(--color-text-inverse);padding:var(--space-3) var(--space-4);border-radius:var(--radius-full)}
+    .skip-link:focus{left:var(--space-4)}
+    .container{width:min(calc(100% - 2rem),var(--content));margin-inline:auto}
+    .section{padding-block:clamp(var(--space-16),8vw,var(--space-24))}
+    .eyebrow{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.14em;color:var(--color-text-muted)}
+    .kicker{display:inline-flex;align-items:center;gap:var(--space-2);padding:.45rem .75rem;border-radius:var(--radius-full);background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);font-size:var(--text-xs);color:var(--color-text-muted)}
+    .site-header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid color-mix(in srgb,var(--color-text) 10%,transparent)}
+    .site-header .inner{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);min-height:74px}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-sm);font-weight:600}
+    .brand-mark{width:42px;height:42px;padding:8px;border-radius:14px;background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);box-shadow:var(--shadow-sm)}
+    .nav{display:flex;align-items:center;gap:var(--space-3)}
+    .nav-links{display:none;align-items:center;gap:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted)}
+    .nav-links a:hover{color:var(--color-text)}
+    .theme-toggle,.menu-toggle{display:grid;place-items:center;width:44px;height:44px;border-radius:var(--radius-full);background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent)}
+    .mobile-menu{display:none;padding-bottom:var(--space-4)}
+    .mobile-menu.open{display:grid;gap:var(--space-3)}
+    .mobile-menu a{padding:var(--space-3) 0;border-bottom:1px solid var(--color-divider);color:var(--color-text-muted)}
+    .hero{padding-top:clamp(var(--space-12),7vw,var(--space-24))}
+    .hero-grid{display:grid;gap:var(--space-8);align-items:center}
+    .hero-copy h1{margin-top:var(--space-5);font-family:var(--font-display);font-size:var(--text-3xl);line-height:.95;letter-spacing:-.04em;max-width:11ch}
+    .hero-copy p{margin-top:var(--space-5);max-width:62ch;color:var(--color-text-muted)}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-8)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-width:162px;min-height:48px;padding:0 var(--space-5);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;transition:transform var(--transition),background var(--transition),border-color var(--transition),color var(--transition),box-shadow var(--transition)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--color-primary);color:var(--color-text-inverse);box-shadow:var(--shadow-sm)}
+    .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent)}
+    .btn-ghost{border:1px dashed color-mix(in srgb,var(--color-text) 16%,transparent);color:var(--color-text-muted)}
+    .hero-panel{padding:var(--space-8);border-radius:calc(var(--radius-xl) + 4px);background:linear-gradient(180deg,var(--color-surface-2),var(--color-surface-offset));border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);box-shadow:var(--shadow-lg)}
+    .stack{display:grid;gap:var(--space-4)}
+    .hero-visual{border-radius:var(--radius-xl);overflow:hidden;border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);box-shadow:var(--shadow-md);background:var(--color-surface)}
+    .hero-visual img{width:100%;aspect-ratio:16/10;object-fit:cover}
+    .visual-caption{padding:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);border-top:1px solid var(--color-divider)}
+    .signal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-3);margin-top:var(--space-6)}
+    .signal{padding:var(--space-4);border-radius:var(--radius-lg);background:var(--color-bg);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent)}
+    .signal strong{display:block;font-size:var(--text-lg);line-height:1.05}
+    .mini-label{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.12em;color:var(--color-text-muted)}
+    .verdict-card{padding:var(--space-5);border-radius:var(--radius-lg);background:var(--color-surface-accent);border:1px solid color-mix(in srgb,var(--color-primary) 18%,var(--color-text) 8%)}
+    .verdict-top{display:flex;justify-content:space-between;gap:var(--space-3);align-items:start}
+    .score{font-size:clamp(2.4rem,2rem + 2vw,3.4rem);line-height:.9;font-variant-numeric:tabular-nums}
+    .meter{height:10px;border-radius:999px;background:color-mix(in srgb,var(--color-primary) 12%,var(--color-surface));overflow:hidden;margin-top:var(--space-4)}
+    .meter > span{display:block;height:100%;width:86%;background:linear-gradient(90deg,var(--color-primary),color-mix(in srgb,var(--color-primary) 60%,white))}
+    .section-head{display:grid;gap:var(--space-3);margin-bottom:var(--space-8)}
+    .section-head h2{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1;letter-spacing:-.03em;max-width:12ch}
+    .section-head p{max-width:64ch;color:var(--color-text-muted)}
+    .audience-grid,.cards-3,.cards-2,.sector-grid,.pricing-grid,.evidence-grid{display:grid;gap:var(--space-4)}
+    .card{padding:var(--space-6);background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+    .card h3{font-size:var(--text-lg);line-height:1.1;margin-bottom:var(--space-3)}
+    .card p,.card li{color:var(--color-text-muted)}
+    .card ul{list-style:none;display:grid;gap:var(--space-2);margin-top:var(--space-4)}
+    .card li::before{content:'— ';color:var(--color-primary)}
+    .audience-card{padding:var(--space-8);border-radius:var(--radius-xl);background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);box-shadow:var(--shadow-md)}
+    .audience-card h3{font-size:var(--text-xl);font-family:var(--font-display);line-height:1.05;letter-spacing:-.02em}
+    .audience-card p{margin-top:var(--space-4);color:var(--color-text-muted);max-width:48ch}
+    .audience-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)}
+    .pill-row{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-5)}
+    .pill{display:inline-flex;align-items:center;padding:.5rem .75rem;border-radius:var(--radius-full);background:var(--color-bg);border:1px solid color-mix(in srgb,var(--color-text) 9%,transparent);font-size:var(--text-xs);color:var(--color-text-muted)}
+    .flow{display:grid;gap:var(--space-4);counter-reset:step}
+    .flow-item{position:relative;padding:var(--space-5) var(--space-5) var(--space-5) calc(var(--space-5) + 2.25rem);background:var(--color-surface);border-radius:var(--radius-lg);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent)}
+    .flow-item:before{counter-increment:step;content:counter(step);position:absolute;left:var(--space-4);top:var(--space-4);width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;font-size:var(--text-xs);font-weight:700;background:var(--color-primary);color:var(--color-text-inverse)}
+    .api-shell{padding:var(--space-8);border-radius:var(--radius-xl);background:#111827;color:#dbe5ff;box-shadow:var(--shadow-lg);overflow:hidden}
+    .api-shell .mini-label{color:#a3b6df}
+    .code-block{margin-top:var(--space-5);padding:var(--space-5);border-radius:var(--radius-lg);background:#0a1020;border:1px solid rgba(255,255,255,.08);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9rem;overflow:auto}
+    .code-line{display:block;white-space:pre}.token-key{color:#8dd8ff}.token-str{color:#c8f7b8}.token-num{color:#f7ce8a}.token-com{color:#7f8db0}
+    .evidence-image{overflow:hidden;border-radius:var(--radius-lg);border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);background:var(--color-surface)}
+    .evidence-image img{width:100%;aspect-ratio:4/3;object-fit:cover}
+    .cta{padding:var(--space-10);border-radius:calc(var(--radius-xl) + 4px);background:linear-gradient(135deg,var(--color-primary-highlight),var(--color-surface));border:1px solid color-mix(in srgb,var(--color-primary) 18%,var(--color-text) 8%)}
+    .cta h2{font-family:var(--font-display);font-size:var(--text-2xl);line-height:1.02;letter-spacing:-.03em;max-width:12ch}
+    .cta p{margin-top:var(--space-4);max-width:58ch;color:var(--color-text-muted)}
+    .footer{padding:var(--space-8) 0 var(--space-10);color:var(--color-text-muted)}
+    .footer-inner{display:flex;flex-direction:column;gap:var(--space-4);padding-top:var(--space-6);border-top:1px solid var(--color-divider)}
+    @media(min-width:860px){
+      .nav-links{display:flex}.menu-toggle,.mobile-menu{display:none !important}
+      .hero-grid{grid-template-columns:1.02fr .98fr;gap:var(--space-10)}
+      .audience-grid,.cards-2,.sector-grid,.pricing-grid,.evidence-grid{grid-template-columns:repeat(2,1fr)}
+      .cards-3{grid-template-columns:repeat(3,1fr)}
+      .footer-inner{flex-direction:row;justify-content:space-between;align-items:center}
+    }
+    @media(max-width:859px){.site-header .inner{min-height:66px}.hero-copy h1{max-width:10ch}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none !important}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <svg class="brand-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M12 10h24" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M18 10v10a6 6 0 0 0 12 0V10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M24 26v12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <path d="M16 38h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="24" cy="20" r="2.5" fill="currentColor"/>
+        </svg>
+        <span>Litmus</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <div class="nav-links">
+          <a href="#audiences">Solutions</a>
+          <a href="#sectors">Use cases</a>
+          <a href="#api">API</a>
+          <a href="#evidence">Visual proof</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"></button>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="sr-only">Open menu</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </nav>
+    </div>
+    <div class="container mobile-menu" id="mobile-menu">
+      <a href="#audiences">Solutions</a>
+      <a href="#sectors">Use cases</a>
+      <a href="#api">API</a>
+      <a href="#evidence">Visual proof</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="kicker">Image authenticity for people and platforms</span>
+          <h1>Litmus helps you test whether an image can be trusted.</h1>
+          <p>Litmus is an image fraud analytics platform for individuals and enterprises. It helps determine whether a photo is genuine, AI-generated, or manipulated with traditional editing tools before that image is used for claims, onboarding, reimbursement, or fraud decisions.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pricing">Try consumer scan</a>
+            <a class="btn btn-secondary" href="#api">Explore API</a>
+            <a class="btn btn-ghost" href="#sectors">See industry use cases</a>
+          </div>
+        </div>
+        <aside class="hero-panel" aria-label="Product preview">
+          <div class="stack">
+            <div>
+              <p class="eyebrow">Brand story</p>
+              <h2 style="font-family:var(--font-display);font-size:var(--text-xl);line-height:1.05;letter-spacing:-.02em;margin-top:var(--space-2);">A digital litmus test for visual evidence.</h2>
+            </div>
+            <div class="hero-visual">
+              <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=80" alt="Analyst reviewing digital visual evidence on multiple screens" width="1200" height="750" loading="lazy" />
+              <div class="visual-caption">Forensic-style visual review supports the promise of trust, verification, and explainable results.</div>
+            </div>
+            <div class="verdict-card">
+              <div class="verdict-top">
+                <div>
+                  <p class="mini-label">Verdict</p>
+                  <strong style="font-size:var(--text-lg)">Likely manipulated</strong>
+                </div>
+                <div style="text-align:right">
+                  <p class="mini-label">Confidence</p>
+                  <div class="score">86%</div>
+                </div>
+              </div>
+              <div class="meter"><span></span></div>
+              <div class="pill-row">
+                <span class="pill">AI synthesis markers</span>
+                <span class="pill">Metadata inconsistency</span>
+                <span class="pill">Edit trace anomalies</span>
+              </div>
+            </div>
+            <div class="signal-grid">
+              <div class="signal"><span class="mini-label">Consumer</span><strong>Simple upload</strong><span>Instant answer for everyday users.</span></div>
+              <div class="signal"><span class="mini-label">Enterprise</span><strong>API ready</strong><span>Embed checks into claims and KYC flows.</span></div>
+              <div class="signal"><span class="mini-label">Controls</span><strong>Policy rules</strong><span>Trigger review based on risk thresholds.</span></div>
+              <div class="signal"><span class="mini-label">Output</span><strong>Explainable result</strong><span>Signals, score, and workflow action.</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="audiences">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Two audiences</p>
+          <h2>One engine, two clear paths.</h2>
+          <p>Litmus gives retail users a simple trust check and gives enterprises a workflow-ready authenticity layer that can integrate into image-driven business decisions.</p>
+        </div>
+        <div class="audience-grid">
+          <article class="audience-card">
+            <p class="eyebrow">For individuals</p>
+            <h3>Check a suspicious image before you believe it.</h3>
+            <p>Use Litmus to assess marketplace photos, edited evidence in disputes, misleading social images, altered travel photos, or other visual content where trust matters.</p>
+            <div class="pill-row">
+              <span class="pill">Fast upload</span>
+              <span class="pill">Clear result</span>
+              <span class="pill">No technical jargon</span>
+            </div>
+            <div class="audience-actions">
+              <a class="btn btn-primary" href="#pricing">Start free scan</a>
+              <a class="btn btn-secondary" href="#contact">Join waitlist</a>
+            </div>
+          </article>
+          <article class="audience-card">
+            <p class="eyebrow">For businesses</p>
+            <h3>Embed image trust inside operational systems.</h3>
+            <p>Use Litmus in claims processing, KYC, expense review, trust and safety, fraud operations, or internal case management systems where images influence a decision or payout.</p>
+            <div class="pill-row">
+              <span class="pill">REST API</span>
+              <span class="pill">Threshold rules</span>
+              <span class="pill">Case routing</span>
+            </div>
+            <div class="audience-actions">
+              <a class="btn btn-primary" href="#api">View API model</a>
+              <a class="btn btn-secondary" href="#contact">Book enterprise demo</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="container cards-3">
+        <article class="card">
+          <p class="eyebrow">Detection</p>
+          <h3>Inspect authenticity signals.</h3>
+          <p>Analyse markers that may indicate generative AI output, traceable edits, metadata inconsistencies, or manipulation patterns inconsistent with a genuine original image.</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">Decisioning</p>
+          <h3>Translate analysis into a verdict.</h3>
+          <p>Return a confidence score, signal summary, and recommended action such as accept, flag, or escalate to manual review.</p>
+        </article>
+        <article class="card">
+          <p class="eyebrow">Workflow</p>
+          <h3>Fit the result into real processes.</h3>
+          <p>Use Litmus as a self-service consumer check or as an API-driven control inside claims, onboarding, reimbursement, moderation, or investigation pipelines.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="sectors">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Use cases</p>
+          <h2>Where image truth affects money, identity, and action.</h2>
+          <p>Litmus is strongest where images serve as evidence of loss, identity, ownership, activity, condition, or entitlement.</p>
+        </div>
+        <div class="sector-grid">
+          <article class="card"><h3>Insurance and claims</h3><ul><li>Damage photo validation</li><li>Fraud triage before payout</li><li>Suspicious claim escalation</li></ul></article>
+          <article class="card"><h3>Banking and fintech</h3><ul><li>KYC and onboarding checks</li><li>Document and selfie support workflows</li><li>Fraud operations review queues</li></ul></article>
+          <article class="card"><h3>Airlines and travel</h3><ul><li>Baggage and disruption claims</li><li>Travel expense image review</li><li>Customer support evidence checks</li></ul></article>
+          <article class="card"><h3>Marketplaces and platforms</h3><ul><li>Listing authenticity screening</li><li>Dispute evidence review</li><li>Trust and safety moderation</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="api">
+      <div class="container cards-2">
+        <div>
+          <div class="section-head" style="margin-bottom:var(--space-6)">
+            <p class="eyebrow">API positioning</p>
+            <h2>Built to integrate, not just demonstrate.</h2>
+            <p>Litmus should be presented as infrastructure for image-based trust decisions, with clean inputs, explainable outputs, and integration points for enterprise case, review, and payment workflows.</p>
+          </div>
+          <div class="flow">
+            <div class="flow-item"><strong>1. Submit image</strong><p>Upload a file or pass an image URL from a claim, reimbursement, onboarding, or moderation flow.</p></div>
+            <div class="flow-item"><strong>2. Analyse signals</strong><p>Litmus inspects likely AI generation, editing traces, metadata inconsistencies, and other integrity markers.</p></div>
+            <div class="flow-item"><strong>3. Receive verdict</strong><p>Your system receives a score, reasons, and an action such as pass, flag, or manual review.</p></div>
+          </div>
+        </div>
+        <div class="api-shell" aria-label="API example">
+          <p class="mini-label">Example response</p>
+          <div class="code-block" role="img" aria-label="Illustrative API response example showing image verification verdict and risk score">
+<span class="code-line"><span class="token-com">POST /v1/analyse-image</span></span>
+<span class="code-line">{</span>
+<span class="code-line">  <span class="token-key">"product"</span>: <span class="token-str">"litmus"</span>,</span>
+<span class="code-line">  <span class="token-key">"verdict"</span>: <span class="token-str">"likely_manipulated"</span>,</span>
+<span class="code-line">  <span class="token-key">"confidence_score"</span>: <span class="token-num">0.86</span>,</span>
+<span class="code-line">  <span class="token-key">"risk_action"</span>: <span class="token-str">"manual_review"</span>,</span>
+<span class="code-line">  <span class="token-key">"signals"</span>: [</span>
+<span class="code-line">    <span class="token-str">"ai_generation_pattern"</span>,</span>
+<span class="code-line">    <span class="token-str">"metadata_inconsistency"</span>,</span>
+<span class="code-line">    <span class="token-str">"edit_trace_detected"</span></span>
+<span class="code-line">  ]</span>
+<span class="code-line">}</span>
+          </div>
+          <div class="pill-row">
+            <span class="pill" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08);color:#cdd8f7">Claims systems</span>
+            <span class="pill" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08);color:#cdd8f7">Expense workflows</span>
+            <span class="pill" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08);color:#cdd8f7">KYC platforms</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="evidence">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Visual proof</p>
+          <h2>Imagery that supports the product story.</h2>
+          <p>The site now uses more appropriate imagery for a verification platform: digital evidence review, forensic-style analysis, and human decision support rather than generic AI graphics.</p>
+        </div>
+        <div class="evidence-grid">
+          <article class="card">
+            <div class="evidence-image">
+              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Abstract networked digital globe suggesting large-scale verification infrastructure" width="1200" height="900" loading="lazy" />
+            </div>
+            <h3 style="margin-top:var(--space-5)">Infrastructure and scale</h3>
+            <p>This image supports the enterprise side of Litmus by suggesting system-level infrastructure, connectivity, and scalable verification workflows.</p>
+          </article>
+          <article class="card">
+            <div class="evidence-image">
+              <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1200&q=80" alt="Close-up technology interface representing digital analysis and image inspection" width="1200" height="900" loading="lazy" />
+            </div>
+            <h3 style="margin-top:var(--space-5)">Inspection and signal review</h3>
+            <p>This image reinforces the idea that Litmus is not only an AI product but also a forensic decision-support layer built around evidence inspection.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Commercial model</p>
+          <h2>Separate entry points, shared engine.</h2>
+          <p>The homepage keeps consumer access simple while making enterprise API value clear for larger teams that need scale, controls, and integration.</p>
+        </div>
+        <div class="pricing-grid">
+          <article class="card"><p class="eyebrow">Consumer</p><h3>Simple pay-per-scan or starter plan.</h3><ul><li>Free trial or limited scans</li><li>Fast upload and plain-language result</li><li>Ideal for suspicious photos and everyday checks</li></ul></article>
+          <article class="card"><p class="eyebrow">Enterprise</p><h3>Usage-based API with workflow support.</h3><ul><li>Volume pricing by image checks</li><li>Team access and rule thresholds</li><li>Integration support for internal systems</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="cta">
+          <p class="eyebrow">Call to action</p>
+          <h2>Make image trust part of the decision.</h2>
+          <p>Litmus positions your engine as a practical authenticity layer for consumer trust checks and enterprise decisioning, centered on the idea that an image often functions as evidence and should be tested before action follows.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:founder@example.com">Request a demo</a>
+            <a class="btn btn-secondary" href="mailto:founder@example.com">Contact sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>Litmus concept homepage.</p>
+      <p>Replace the placeholder email and final product claims with your launch-ready details.</p>
+    </div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.querySelector('[data-theme-toggle]');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    function themeIcon(mode){
+      return mode === 'dark'
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+    }
+    function setTheme(mode){
+      theme = mode;
+      root.setAttribute('data-theme', mode);
+      toggle.innerHTML = themeIcon(mode);
+      toggle.setAttribute('aria-label', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    setTheme(theme);
+    toggle.addEventListener('click', ()=>setTheme(theme === 'dark' ? 'light' : 'dark'));
+    if(menuToggle){
+      menuToggle.addEventListener('click', ()=>{
+        const open = mobileMenu.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', String(open));
+      });
+    }
+    document.querySelectorAll('.mobile-menu a').forEach(link=>{
+      link.addEventListener('click', ()=>{
+        mobileMenu.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded','false');
+      });
+    });
+  </script>
+</body>
+</html>
